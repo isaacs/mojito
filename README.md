@@ -86,6 +86,8 @@ When a request comes into a chain server, a ChainWalker is created to walk down 
 `finish` - Finish the request, send the headers, etc.  
 `sendBody` - Send some bytes to the client.  
 `sendHeader` - Send a status and header object to the client. (Pass "true" as the third arg to "send now", rather than buffering.)  
+`addTraceback` - Add a traceback function dynamically.  
+`error` - Method that is called when a link throws an error, or which can be manually called to signal that something tragic happened.  Takes an Error() object as an argument.  Primarily exposed to provide a handle for AOP functions.  Use with discretion!  
 `before` - Opposite of "after".  Pass in a method name (such as "sendBody") and a function.  The supplied function will be executed before the method named.  If it returns boolean false, then the method call is cancelled.  Function will be called in the context of the ChainWalker.  
 `after` - Opposite of "before".  Pass in a method name (such as "sendBody") and a function.  The supplied function will be executed after the method named, and thus cannot affect the default method behavior.  Function will be called in the context of the ChainWalker.  
 
