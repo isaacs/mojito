@@ -1,9 +1,6 @@
 {
-  name : "chain",
+  name : "mojito",
   author : "Isaac Z. Schlueter <i@izs.me>",
-  contributors : [
-    "Daniel Neighman"
-  ],
-  main : "lib/chain",
+  main : "lib/mojito",
   version : "0.0.0"
 }
