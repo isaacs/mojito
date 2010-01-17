@@ -1,0 +1,9 @@
+{
+  name : "chain",
+  author : "Isaac Z. Schlueter <i@izs.me>",
+  contributors : [
+    "Daniel Neighman"
+  ],
+  main : "lib/chain",
+  version : "0.0.0"
+}
