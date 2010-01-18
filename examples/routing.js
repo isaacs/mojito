@@ -1,4 +1,4 @@
-// minimum demonstration of a chain walker with routing capabilities.
+// minimum demonstration of a walker with routing capabilities.
 
 require.paths.unshift(require("path").join(__filename, "../../lib"));
 
@@ -49,7 +49,7 @@ function route (test, chain) {
   };
 };
 
-var ChainWalker = require("chain-walker"),
+var Walker = require("walker"),
   header = function () { this.sendHeader(200, {"content-type":"text/plain"}).next() },
   hello = function () { this.sendBody("hello").next() },
   space = function () { this.sendBody(", ").next() },
@@ -68,5 +68,5 @@ var ChainWalker = require("chain-walker"),
   ];
 
 require("http").createServer(function (req, res) {
-  new ChainWalker(req, res).push(myChain).next();
+  new Walker(req, res).push(myChain).next();
 }).listen(8000, "localhost");

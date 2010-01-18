@@ -4,13 +4,13 @@
 //         \(C)---*            --(G)--(H)
 //                 \(E)--(F)--/
 
-chain
+mojito
   (A)
-  ("/B", B) // single link, then fallthrough, don't need a chain
-  ("/C", chain
+  ("/B", B) // single link, then fallthrough, no wrapper necessary
+  ("/C", mojito
     (C)
-    ("/D", chain(D)()) // terminus
-    ("/E", chain(E)(F)))
+    ("/D", mojito(D)()) // terminus
+    ("/E", mojito(E)(F)))
   (G)
   (H)
   ().listen(8000);
@@ -18,13 +18,13 @@ chain
 
 // irl, these links would probably be defined in their own modules or something.
 // but you CAN do it inline, since it's just functions getting tossed about.
-chain
+mojito
   // a setup function that adds a fun header.
   // Note that this is JUST a setup function, no traceback, no walk link.
   (function setup () {
     this.addHeader(null, {
       "The-Answer" : "42",
-      "X-Powered-By" : "Chain"
+      "X-Powered-By" : "mojito"
     });
   })
   // An error handler.  Uses "before" to trap the error and handle it nicely.
@@ -61,14 +61,14 @@ chain
         return false;
       });
   })
-  ("/foo", chain(fooApp)())
-  (/^\/blog\/?/, chain(funkyBlogApp)())
-  (/^\/static\//, chain
+  ("/foo", mojito(fooApp)())
+  (/^\/blog\/?/, mojito(funkyBlogApp)())
+  (/^\/static\//, mojito
     (farFutureExpiresHeader)
-    (/^js\/(.*)\.js$/, chain
+    (/^js\/(.*)\.js$/, mojito
       (javascriptHeaders)
       (jsmin))
-    (/^css\/(.*)\.css$/, chain
+    (/^css\/(.*)\.css$/, mojito
       (cssHeaders)
       (cssmin)))
   (directoryIndex)
@@ -77,27 +77,27 @@ chain
   .listen(8000); // this starts the server.
 
 // NOTE: These examples below show that there is a need for SOME kind of state
-// to be handled by the ChainWalker.  I don't love the code below, and the API
+// to be handled by the Walker.  I don't love the code below, and the API
 // definitely needs to be cleaned up a lot.
 
 // check to make sure that the user is authenticated, and if not, make them log in.
-chain
+mojito
   (loadSession)
   (checkAuth)
-  (function test (req) { return req.isAuthed }, chain(loginPage)())
+  (function test (req) { return req.isAuthed }, mojito(loginPage)())
   (myAppMain)
   ().listen(80);
 
-chain
+mojito
   (loadDataModel)
   (function test (req) {
     // if it's a JSONRequest, then serve up json.
     return req.header("accept").indexOf("application/json") !== -1
-  }, chain(renderAsJSON)()) // terminal, and end route
+  }, mojito(renderAsJSON)()) // terminal, and end route
   (function test (req) {
     // jsonp, serve up with a callback.
     return req.query.callback || req.query.format === "json";
-  }, chain(renderAsJSONP)())
+  }, mojito(renderAsJSONP)())
   (renderAsTemplate)
   ().listen(8000);
 
