@@ -1,9 +1,9 @@
 var mojito = require("mojito");
 
 mojito
-  (function () {
+  (function (w) {
     var message = "hello, world";
-    this
+    w
       .sendHeader(200, {"content-type":"text/plain", "content-length":message.length})
       .sendBody(message)
       .done();
