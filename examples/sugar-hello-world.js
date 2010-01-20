@@ -19,10 +19,9 @@ var mojito = require("mojito");
 
 
 mojito
-  ( function (w) { w.sendHeader(200, {"content-type":"text"}).next() })
-  ( /^\/hello/, function (w) { w.sendBody("hello").next() })
-  ( { test : /^(?!\/hello)/,
-    action : function (w) { w.sendBody("yorp").next() } })
+  ( function (w) { w.sendHeader(200, {"content-type":"text"}).next() } )
+  ( /^\/hello/, function (w) { w.sendBody("hello").next() } )
+  ( /^(?!\/hello)/, function (w) { w.sendBody("yorp").next() } )
   ( function (w) { w.sendBody(", world").next() } )
   ( function (w) { w.done() } )
   .listen(8000, "localhost");
